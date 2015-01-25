@@ -56,6 +56,7 @@ function listing(next)
     // img.setAttribute("src", data.url);
     // right.appendChild(img);
     // row.appendChild(right);
+
     img.className = "center";
     img.setAttribute("src", data.url);
     right.appendChild(img);
@@ -81,28 +82,6 @@ function listing(next)
     container.appendChild(div)
   });
 }
-
-// function updateNav(start, id)
-// {
-//   document.getElementById("next").setAttribute("href", "?dir=next&id=" + id);
-//
-//   if (start) {
-//     document.getElementById("prev-button").className="previous disabled";
-//   } else {
-//     document.getElementById("prev").setAttribute("href", "?dir=prev&id=" + id);
-//   }
-// }
-
-// function getUrlVars()
-// {
-//   var vars = {};
-//   var parts =
-//     window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-//       function(m,key,value) {
-//         vars[key] = value;
-//       });
-//   return vars;
-// }
 
 function main() {
   // initialize global variables
