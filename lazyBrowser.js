@@ -34,8 +34,9 @@ function listing(next)
     }
 
   } else {
-    url = "http://www.reddit.com/by_id/" + history.pop() + ".json";
-    promise = reddit.raw(url).get();
+    history.pop();
+    var by_id = "http://www.reddit.com/by_id/" + history.peek() + ".json";
+    promise = reddit.raw(by_id).get();
   }
 
   promise.then(function(result) {
