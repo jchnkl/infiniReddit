@@ -63,7 +63,9 @@ function listing(next)
 
     container.appendChild(row);
 
-    // history.push(data.name);
+    if (next) {
+      history.push(data.name);
+    }
 
   }).catch(function(error) {
     div = document.createElement("div");
