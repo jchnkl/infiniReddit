@@ -27,6 +27,11 @@ function listing(next)
   }
 
   promise.then(function(result) {
+    // clear container
+    while (container.firstChild) {
+      container.removeChild(container.firstChild);
+    }
+
     var data = result.data.children[0].data;
     var thumbnail = document.createElement("img");
     var img = document.createElement("img");
