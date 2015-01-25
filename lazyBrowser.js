@@ -10,8 +10,18 @@ var history = null;
 // container for appending the reddit listings
 var container = null;
 
+// clear container
+function clear(node)
+{
+  while (node.firstChild) {
+    node.removeChild(node.firstChild);
+  }
+}
+
 function listing(next)
 {
+  clear(container);
+
   var promise = null;
 
   if (next) {
@@ -27,10 +37,6 @@ function listing(next)
   }
 
   promise.then(function(result) {
-    // clear container
-    while (container.firstChild) {
-      container.removeChild(container.firstChild);
-    }
 
     var data = result.data.children[0].data;
     var thumbnail = document.createElement("img");
