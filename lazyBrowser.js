@@ -55,10 +55,8 @@ function listing(next)
 
     link.setAttribute("href", "http://www.reddit.com" + data.permalink);
     link.innerHTML = data.title;
-    left.className = "center";
-    left.appendChild(thumbnail);
-    left.appendChild(link);
-    row.appendChild(left);
+    link.className = "center";
+    row.appendChild(link);
 
     // right.className = "col-xs-8";
     // img.className = "img-responsive";
@@ -68,10 +66,7 @@ function listing(next)
 
     img.className = "center";
     img.setAttribute("src", data.url);
-    right.appendChild(img);
-    row.appendChild(right);
-
-    container.appendChild(row);
+    row.appendChild(img);
 
     var prev = document.getElementById("prev");
     container.innerHTML = "";
@@ -81,6 +76,7 @@ function listing(next)
     } else {
       prev.className = "previous";
     }
+    container.appendChild(row);
 
     if (next) {
       history.push(data.name);
