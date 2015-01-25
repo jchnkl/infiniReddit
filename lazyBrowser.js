@@ -105,26 +105,40 @@ function Stack() {
   this.push = push;
   this.pop = pop;
   this.peek = peek;
+  this.size = size;
   this.isEmpty = isEmpty;
 }
 
 function push(element) {
-  this.dataStore[this.top++] = element;
+  this.dataStore[this.top] = element;
+  ++this.top;
 }
 
 function pop() {
-  return this.dataStore[--this.top];
+  if (this.top > 0) {
+    --this.top;
+    var tmp = this.dataStore[this.top];
+    this.dataStore.pop();
+    return tmp;
+  } else {
+    return null;
+  }
 }
 
 function peek() {
-  return this.dataStore[this.top-1];
+  if (this.top > 0) {
+    return this.dataStore[this.top - 1];
+  } else {
+    return null;
+  }
 }
 
-function length() {
+function size() {
   return this.top;
 }
 
 function clear() {
+  this.dataStore = [];
   this.top = 0;
 }
 
