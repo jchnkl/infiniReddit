@@ -22,6 +22,8 @@ function listing(next)
 {
   clear(container);
 
+  container.innerHTML = "Loading ...";
+
   var promise = null;
 
   if (next) {
@@ -71,6 +73,7 @@ function listing(next)
     container.appendChild(row);
 
     var prev = document.getElementById("prev");
+    container.innerHTML = "";
 
     if (history.isEmpty()) {
       prev.className = "previous disabled"
