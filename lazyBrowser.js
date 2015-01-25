@@ -10,25 +10,19 @@ var history = null;
 // container for appending the reddit listings
 var container = null;
 
-function listing(url)
+function listing(next)
 {
   var promise = null;
-  var vars = getUrlVars();
 
-  // alert (vars["id"] + "== null") ;
-  // alert ("using \"" + vars["id"] + "\" for after");
-  // alert ( "got \"" + vars["dir"] + "\" for dir; ");
+  if (next) {
+    if (history.isEmpty()) {
+      promise = reddit(url).get({ limit: 1 });
+    } else {
+      promise = reddit(url).get({ limit: 1, after: history.peek() });
+    }
 
-  if (vars["id"] == null) {
-    promise = reddit(url).get({ limit: 1 });
   } else {
-    promise = reddit(url).get({ limit: 1, after: vars["id"] });
-  }
-
-  if (vars["dir"] == "prev") {
-    // url = "/by_id/" + vars["id"] + ".json";
-    url = "http://www.reddit.com/by_id/" + vars["id"] + ".json";
-    // promise = reddit.raw(url).get({ names: [vars["id"]] });
+    url = "http://www.reddit.com/by_id/" + history.pop() + ".json";
     promise = reddit.raw(url).get();
   }
 
@@ -64,7 +58,7 @@ function listing(url)
 
     container.appendChild(row);
 
-    updateNav(vars["id"] == null, result.data.after);
+    // history.push(data.name);
 
   }).catch(function(error) {
     div = document.createElement("div");
@@ -73,15 +67,27 @@ function listing(url)
   });
 }
 
-function updateNav(start, id)
-{
-  document.getElementById("next").setAttribute("href", "?dir=next&id=" + id);
+// function updateNav(start, id)
+// {
+//   document.getElementById("next").setAttribute("href", "?dir=next&id=" + id);
+//
+//   if (start) {
+//     document.getElementById("prev-button").className="previous disabled";
+//   } else {
+//     document.getElementById("prev").setAttribute("href", "?dir=prev&id=" + id);
+//   }
+// }
 
-  if (start) {
-    document.getElementById("prev-button").className="previous disabled";
-  } else {
-    document.getElementById("prev").setAttribute("href", "?dir=prev&id=" + id);
-  }
+// function getUrlVars()
+// {
+//   var vars = {};
+//   var parts =
+//     window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+//       function(m,key,value) {
+//         vars[key] = value;
+//       });
+//   return vars;
+// }
 
 function main() {
   // initialize global variables
@@ -91,16 +97,6 @@ function main() {
   reddit = new window.Snoocore({ userAgent: 'LazyBrowser@0.0.1 by jrk-' });
   listing(true);
 }
-
-function getUrlVars()
-{
-  var vars = {};
-  var parts =
-    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
-      function(m,key,value) {
-	vars[key] = value;
-      });
-  return vars;
 
 // yay for a sane STL..
 function Stack() {
