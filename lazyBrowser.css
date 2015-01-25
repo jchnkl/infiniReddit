@@ -1,3 +1,6 @@
+@import url("bootstrap.min.css")
+@import url("bootstrap-theme.min.css")
+
 img.center {
   display: block;
   margin-left: auto;
