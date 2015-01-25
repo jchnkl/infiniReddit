@@ -68,28 +68,39 @@ function listing(next)
     img.setAttribute("src", data.url);
     row.appendChild(img);
 
-    var prev = document.getElementById("prev");
     container.innerHTML = "";
 
-    if (history.isEmpty()) {
-      prev.className = "previous disabled"
-    } else {
-      prev.className = "previous";
-    }
     container.appendChild(row);
 
     if (next) {
       history.push(data.name);
     }
 
+    updatePrev();
+
   }).catch(function(error) {
     div = document.createElement("div");
     div.innerHTML = "ERROR: " + error;
-    container.appendChild(div)
+    container.appendChild(div);
   });
 }
 
-function main() {
+function updatePrev()
+{
+  var prev_li = document.getElementById("prev-li");
+  var prev_a = document.getElementById("prev-a");
+
+  if (history.size() == 1) {
+    prev_li.className = "previous disabled";
+    prev_a.setAttribute("onClick", "");
+  } else {
+    prev_li.className = "previous";
+    prev_a.setAttribute("onClick", "listing(false);");
+  }
+}
+
+function main()
+{
   // initialize global variables
   url = '/r/aww/hot'
   history = new Stack();
