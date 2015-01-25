@@ -1,7 +1,11 @@
-// global..
-var reddit = new window.Snoocore({ userAgent: 'LazyBrowser@0.0.1 by jrk-' });
+// globals..
+var url = null;
 
-var container = document.getElementById("container");
+// snoocore
+var reddit = null;
+
+// container for appending the reddit listings
+var container = null;
 
 function listing(url)
 {
@@ -75,6 +79,14 @@ function updateNav(start, id)
   } else {
     document.getElementById("prev").setAttribute("href", "?dir=prev&id=" + id);
   }
+
+function main() {
+  // initialize global variables
+  url = '/r/aww/hot'
+  history = new Stack();
+  container = document.getElementById("container");
+  reddit = new window.Snoocore({ userAgent: 'LazyBrowser@0.0.1 by jrk-' });
+  listing(true);
 }
 
 function getUrlVars()
@@ -88,44 +100,5 @@ function getUrlVars()
   return vars;
 }
 
-function main() {
-  var url = '/r/aww/hot';
-  listing(url);
 
-//
-//     reddit(url).get({ limit: 1 }).then(function(res) {
-//       for (var i = 0; i < res.data.children.length; i++) {
-//         var data = res.data.children[i].data;
-//         var thumbnail = document.createElement("img");
-//         var img = document.createElement("img");
-//         var row = document.createElement("div");
-//         var left = document.createElement("div");
-//         var right = document.createElement("div");
-//         var link = document.createElement("a");
-//
-//         row.className = "row";
-//         // left.className = "col-xs-4";
-//         // thumbnail.setAttribute("src", data.thumbnail);
-//
-//         link.setAttribute("href", "http://www.reddit.com" + data.permalink);
-//         link.innerHTML = data.title;
-//         left.appendChild(thumbnail);
-//         left.appendChild(link);
-//
-//         row.appendChild(left);
-//         right.className = "col-xs-8";
-//         img.className = "img-responsive";
-//         img.setAttribute("src", data.url);
-//         right.appendChild(img);
-//         row.appendChild(right);
-//
-//         container.appendChild(row);
-//       }
-//
-//     }).catch(function(error) {
-//       div = document.createElement("div");
-//       div.innerHTML = error;
-//       container.appendChild(div)
-//     });
-};
 
