@@ -18,71 +18,77 @@ function clear(node)
   }
 }
 
-function listing(next)
+function appendListing(result)
+{
+  var data = result.data.children[0].data;
+  var thumbnail = document.createElement("img");
+  var img = document.createElement("img");
+  var row = document.createElement("div");
+  var left = document.createElement("div");
+  var right = document.createElement("div");
+  var link = document.createElement("a");
+
+  // row.className = "row";
+  // left.className = "col-xs-4";
+  // thumbnail.setAttribute("src", data.thumbnail);
+
+  link.setAttribute("href", "http://www.reddit.com" + data.permalink);
+  link.innerHTML = data.title;
+  link.className = "center";
+  row.appendChild(link);
+
+  // right.className = "col-xs-8";
+  // img.className = "img-responsive";
+  // img.setAttribute("src", data.url);
+  // right.appendChild(img);
+  // row.appendChild(right);
+
+  img.className = "center";
+  img.setAttribute("src", data.url);
+  row.appendChild(img);
+
+  container.innerHTML = "";
+  container.appendChild(row);
+}
+
+function updateListing(next)
 {
   clear(container);
-
   container.innerHTML = "Loading ...";
 
-  var promise = null;
-
   if (next) {
+    var promise = null;
+
     if (history.isEmpty()) {
       promise = reddit(url).get({ limit: 1 });
     } else {
-      promise = reddit(url).get({ limit: 1, after: history.peek() });
+      var name = history.peek().data.children[0].data.name;
+      promise = reddit(url).get({ limit: 1, after: name });
     }
+
+    promise.then(function(result)
+    {
+      appendListing(result);
+      return result;
+    }).then(function(result)
+    {
+      history.push(result);
+      return result;
+    }).then(function(result)
+    {
+      updatePrev();
+    }).catch(function(error)
+    {
+      div = document.createElement("div");
+      div.innerHTML = "ERROR: " + error;
+      container.appendChild(div);
+    });
 
   } else {
     history.pop();
-    var by_id = "http://www.reddit.com/by_id/" + history.peek() + ".json";
-    promise = reddit.raw(by_id).get();
-  }
-
-  promise.then(function(result) {
-
-    var data = result.data.children[0].data;
-    var thumbnail = document.createElement("img");
-    var img = document.createElement("img");
-    var row = document.createElement("div");
-    var left = document.createElement("div");
-    var right = document.createElement("div");
-    var link = document.createElement("a");
-
-    // row.className = "row";
-    // left.className = "col-xs-4";
-    // thumbnail.setAttribute("src", data.thumbnail);
-
-    link.setAttribute("href", "http://www.reddit.com" + data.permalink);
-    link.innerHTML = data.title;
-    link.className = "center";
-    row.appendChild(link);
-
-    // right.className = "col-xs-8";
-    // img.className = "img-responsive";
-    // img.setAttribute("src", data.url);
-    // right.appendChild(img);
-    // row.appendChild(right);
-
-    img.className = "center";
-    img.setAttribute("src", data.url);
-    row.appendChild(img);
-
-    container.innerHTML = "";
-
-    container.appendChild(row);
-
-    if (next) {
-      history.push(data.name);
-    }
-
+    appendListing(history.peek());
     updatePrev();
-
-  }).catch(function(error) {
-    div = document.createElement("div");
-    div.innerHTML = "ERROR: " + error;
-    container.appendChild(div);
-  });
+  }
 }
 
 function updatePrev()
@@ -95,7 +101,7 @@ function updatePrev()
     prev_a.setAttribute("onClick", "");
   } else {
     prev_li.className = "previous";
-    prev_a.setAttribute("onClick", "listing(false);");
+    prev_a.setAttribute("onClick", "updateListing(false);");
   }
 }
 
@@ -106,7 +112,7 @@ function main()
   history = new Stack();
   container = document.getElementById("container");
   reddit = new window.Snoocore({ userAgent: 'LazyBrowser@0.0.1 by jrk-' });
-  listing(true);
+  updateListing(true);
 }
 
 // yay for a sane STL..
