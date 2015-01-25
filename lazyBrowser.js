@@ -63,6 +63,14 @@ function listing(next)
 
     container.appendChild(row);
 
+    var prev = document.getElementById("prev");
+
+    if (history.isEmpty()) {
+      prev.className = "previous disabled"
+    } else {
+      prev.className = "previous";
+    }
+
     if (next) {
       history.push(data.name);
     }
