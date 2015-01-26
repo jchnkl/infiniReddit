@@ -40,6 +40,10 @@ function appendListing(data)
   row.appendChild(img);
 
   container.appendChild(row);
+
+  var hr = document.createElement("hr");
+  hr.setAttribute("width", "90%")
+  container.appendChild(hr);
 }
 
 function loadNextListing()
