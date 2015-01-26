@@ -9,3 +9,7 @@ div.center {
   margin-right: auto;
   text-align: center;
 }
+
+img {
+  max-width: 100%;
+}
