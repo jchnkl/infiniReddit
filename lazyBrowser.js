@@ -93,7 +93,7 @@ function listingNode(data)
   row.appendChild(link);
 
   media.setAttribute("id", data.name);
-  media.innerHTML = "<canvas data-processing-sources=\"throbber.pde\" alt=\"Loading ..\"></canvas>";
+  media.innerHTML = "Loading ..";
 
   if (data.over_18) {
     media.className = "nsfw";
