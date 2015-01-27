@@ -210,15 +210,49 @@ function toggleAllNsfw()
   }
 }
 
+function getSort()
+{
+  var obj = document.getElementById("SubSelect");
+  return obj.options[obj.selectedIndex].text;
+}
+
+function chooseSub()
+{
+  if (document.SubForm.Sub.value == "") {
+    url = "/" + getSort();
+  } else {
+    url = "/r/" + document.SubForm.Sub.value + "/" + getSort();
+  }
+
+  lastListing = null;
+  clearNode(container);
+  loadNextListing();
+}
+
 function main()
 {
   // initialize global variables
-  url = '/r/woahdude/hot'
+  var sub = getUrlVars()["Sub"];
+  if (sub == null) {
+    url = "/" + getSort();
+  } else {
+    url = "/r/" + sub + "/" + getSort();
+  }
   container = document.getElementById("container");
   reddit = new window.Snoocore({ userAgent: 'InfiniReddit@0.0.1 by jrk-' });
 
   loadNextListing();
   window.onscroll = loadMore;
+}
+
+function getUrlVars()
+{
+  var vars = {};
+  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+      function(m,key,value) {
+        vars[key] = value;
+      });
+  return vars;
 }
 
 function jsonRequest(url, handler)

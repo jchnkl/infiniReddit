@@ -14,11 +14,33 @@
 <body>
 
 <div class="center">
-  <a id="global_nsfw_switch"
-     href="javascript:;" onClick="toggleAllNsfw();"
-     style="color: #ff0000">
-    Show <b>all</b> NSFW content
-  </a>
+
+  <div style="float: left;">
+    <form name="SubForm">
+      <input type="text" name="Sub">
+    </form>
+  </div>
+
+  <div style="float: left;">
+    <select id="SubSelect">
+      <option>hot</option>
+      <option>new</option>
+      <option>top</option>
+    </select>
+  </div>
+
+  <div style="float: left;">
+    <input type="button" onclick="chooseSub()" value="Go!">
+  </div>
+
+  <div style="float: right;">
+    <a id="global_nsfw_switch"
+       href="javascript:;" onClick="toggleAllNsfw();"
+                           style="color: #ff0000">
+      Show <b>all</b> NSFW content
+    </a>
+  </div>
+
 </div>
 
 <hr width = "100%" style="margin-top: 3px"></hr>
