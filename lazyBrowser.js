@@ -4,9 +4,6 @@ var url = null;
 // snoocore
 var reddit = null;
 
-// history stack
-var history = null;
-
 // container for appending the reddit listings
 var container = null;
 
@@ -15,6 +12,9 @@ var isReady = true;
 
 // how many listings to fetch per request
 var maxListings = 4;
+
+// id of last fetched listing
+var lastListing = null;
 
 // clear container
 function clearNode(node)
@@ -98,11 +98,10 @@ function loadNextListing()
 
   var promise = null;
 
-  if (history.isEmpty()) {
+  if (lastListing == null) {
     promise = reddit(url).get({ limit: maxListings });
   } else {
-    var name = history.peek().name;
-    promise = reddit(url).get({ limit: maxListings, after: name });
+    promise = reddit(url).get({ limit: maxListings, after: lastListing });
   }
 
   promise.then(function(result)
@@ -110,7 +109,7 @@ function loadNextListing()
     result.data.children.forEach(function(child) {
       if (! child.data.stickied) {
         listingNode(child.data);
-        history.push(child.data);
+        lastListing = child.data.name;
       }
     });
 
@@ -143,62 +142,11 @@ function main()
 {
   // initialize global variables
   url = '/r/woahdude/hot'
-  history = new Stack();
   container = document.getElementById("container");
   reddit = new window.Snoocore({ userAgent: 'LazyBrowser@0.0.1 by jrk-' });
 
   loadNextListing();
   window.onscroll = loadMore;
-}
-
-// yay for a sane STL..
-function Stack() {
-  this.dataStore = [];
-  this.top = 0;
-  this.push = push;
-  this.pop = pop;
-  this.peek = peek;
-  this.size = size;
-  this.clear = clear;
-  this.isEmpty = isEmpty;
-}
-
-function push(element) {
-  this.dataStore[this.top] = element;
-  ++this.top;
-}
-
-function pop() {
-  if (this.top > 0) {
-    --this.top;
-    var tmp = this.dataStore[this.top];
-    this.dataStore.pop();
-    return tmp;
-  } else {
-    return null;
-  }
-}
-
-function peek() {
-  if (this.top > 0) {
-    return this.dataStore[this.top - 1];
-  } else {
-    return null;
-  }
-}
-
-function size() {
-  return this.top;
-}
-
-function clear() {
-  this.dataStore = [];
-  this.top = 0;
-}
-
-function isEmpty()
-{
-  return this.top == 0;
 }
 
 function jsonRequest(url, handler)
