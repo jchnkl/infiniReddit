@@ -12,7 +12,7 @@ void setup() {
   strokeWeight(5);
   noFill();
   // Line color
-  stroke(221,221,209);
+  stroke(18,18,17);
 
   // Spacing 
   step = 22;
@@ -20,7 +20,7 @@ void setup() {
 }
 
 void draw() {
-  background(18,18,17);
+  background(0,0,0,0);
   translate(width/2, height/2);
   for (int i=0; i<num; i++) {
     spacing = i*step;
@@ -45,6 +45,6 @@ void draw() {
 
 
   //animation speed
-  theta += .02;
+  theta += 0.10;
 
 }
