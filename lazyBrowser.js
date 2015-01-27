@@ -76,11 +76,7 @@ function mediaNode(data)
 
 function listingNode(data)
 {
-  var thumbnail = document.createElement("img");
-  var img = document.createElement("img");
   var row = document.createElement("div");
-  var left = document.createElement("div");
-  var right = document.createElement("div");
   var link = document.createElement("a");
   var media = document.createElement("div");
 
