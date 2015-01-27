@@ -7,9 +7,6 @@ var reddit = null;
 // container for appending the reddit listings
 var container = null;
 
-// are new listings completely appended to the dom?
-var isReady = true;
-
 // how many listings to fetch per request
 var maxListings = 4;
 
@@ -94,7 +91,7 @@ function listingNode(data)
 
 function loadNextListing()
 {
-  isReady = false;
+  window.onscroll = null;
 
   var promise = null;
 
@@ -113,7 +110,7 @@ function loadNextListing()
       }
     });
 
-    isReady = true;
+    window.onscroll = loadMore;
 
   }).catch(function(error)
   {
@@ -125,17 +122,13 @@ function loadNextListing()
 
 function loadMore()
 {
-  window.onscroll = null;
-
   var barrier      = 1.5;
       scrollTop    = document.documentElement.scrollTop;
       scrollTopMax = document.documentElement.scrollTopMax;
 
-  if (isReady && scrollTopMax / scrollTop < barrier) {
+  if (scrollTopMax / scrollTop < barrier) {
     loadNextListing();
   }
-
-  window.onscroll = loadMore;
 }
 
 function main()
