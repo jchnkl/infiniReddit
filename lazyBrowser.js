@@ -64,25 +64,12 @@ function loadNextListing()
 
   promise.then(function(result)
   {
-    var ixs = [];
-
-    for (var i = 0; i < result.data.children.length; ++i) {
-      if (result.data.children[i].data.stickied) {
-        ixs.push(i);
+    result.data.children.forEach(function(child) {
+      if (! child.data.stickied) {
+        listingNode(child.data);
+        history.push(child.data);
       }
-    }
-
-    for (var i = 0; i < ixs.length; ++i) {
-      result.data.children.splice(ixs[i], 1);
-    }
-
-    for (var i = 0; i < result.data.children.length; ++i) {
-      appendListing(result.data.children[i].data);
-    }
-
-    for (var i = 0; i < result.data.children.length; ++i) {
-      history.push(result.data.children[i].data);
-    }
+    });
 
     isReady = true;
 
