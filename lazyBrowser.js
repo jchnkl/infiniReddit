@@ -127,7 +127,7 @@ function loadMore()
 {
   window.onscroll = null;
 
-  var barrier      = 3.0;
+  var barrier      = 1.5;
       scrollTop    = document.documentElement.scrollTop;
       scrollTopMax = document.documentElement.scrollTopMax;
 
