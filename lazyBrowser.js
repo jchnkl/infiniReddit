@@ -24,6 +24,26 @@ function clearNode(node)
   }
 }
 
+function gfycatNode(data)
+{
+  var requestUrl = "http://gfycat.com/cajax/get/" + data.url.replace(/http.*\//, "");
+  jsonRequest(requestUrl).then(function(json) {
+    var node = document.createElement("div");
+    node.innerHTML = json;
+    var node = document.createElement("iframe");
+    node.setAttribute("frameborder", "0");
+    node.setAttribute("scrolling", "no");
+    node.setAttribute("width", json.gfyItem.width + "px");
+    node.setAttribute("height", json.gfyItem.height + "px");
+    node.setAttribute("src", data.url);
+    document.getElementById(data.name).appendChild(node);
+  }).catch(function(error) {
+    var node = document.createElement("div");
+    node.innerHTML = "Gfycat error:\n" + error;
+    document.getElementById(data.name).appendChild(node);
+  });
+}
+
 function mediaNode(data)
 {
   if (data.media == null) {
@@ -36,6 +56,7 @@ function mediaNode(data)
         document.getElementById(data.name).appendChild(node);
 
       } else if (data.domain == "gfycat.com") {
+        gfycatNode(data);
       }
 
     } else {
