@@ -8,7 +8,7 @@ var reddit = null;
 var container = null;
 
 // how many listings to fetch per request
-var maxListings = 4;
+var maxListings = 6;
 
 // id of last fetched listing
 var lastListing = null;
