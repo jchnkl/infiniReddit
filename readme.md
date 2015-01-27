@@ -1,1 +1,1 @@
-LazyBrowser
+InfiniReddit - Enjoy Reddit infinitely!
