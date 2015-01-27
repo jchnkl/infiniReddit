@@ -13,6 +13,9 @@ var maxListings = 4;
 // id of last fetched listing
 var lastListing = null;
 
+// show NSFW by default
+showNSFW = false;
+
 // clear container
 function clearNode(node)
 {
@@ -80,8 +83,29 @@ function listingNode(data)
   link.setAttribute("href", "http://www.reddit.com" + data.permalink);
   link.innerHTML = data.title;
   link.className = "center";
-  media.setAttribute("id", data.name);
   row.appendChild(link);
+
+  media.setAttribute("id", data.name);
+
+  if (data.over_18) {
+    media.className = "nsfw";
+
+    if (showNSFW) {
+      media.style.display = "block";
+    } else {
+      media.style.display = "none";
+    }
+
+    var nsfw = document.createElement("a");
+    nsfw.id = data.name + "_nsfw_switch";
+    nsfw.setAttribute("href", "javascript:;");
+    nsfw.setAttribute("onClick", "toggleNsfw(\"" + data.name + "\");");
+    nsfw.style.color = "#ff0000";
+    nsfw.innerHTML = "Show NSFW";
+    nsfw.className = "center";
+    row.appendChild(nsfw);
+  }
+
   row.appendChild(media);
 
   container.appendChild(row);
@@ -128,6 +152,49 @@ function loadMore()
 
   if (scrollTopMax / scrollTop < barrier) {
     loadNextListing();
+  }
+}
+
+// yuk
+function toggleNsfw(id)
+{
+  var nsfw = document.getElementById(id);
+  var link = document.getElementById(id + "_nsfw_switch");
+
+  if (nsfw.style.display == "block") {
+    nsfw.style.display = "none";
+    link.innerHTML = "Show NSFW";
+
+  } else {
+    nsfw.style.display = "block";
+    link.innerHTML = "Hide NSFW";
+  }
+}
+
+// yukyuk
+function toggleAllNsfw()
+{
+  var linkText = "";
+  var display = "";
+  var link = document.getElementById("global_nsfw_switch");
+
+  if (showNSFW) {
+    showNSFW = false;
+    linkText = "Show NSFW";
+    display = "none";
+    link.innerHTML = "Show <b>all</b> NSFW content"
+  } else {
+    showNSFW = true;
+    linkText = "Hide NSFW";
+    display = "block";
+    link.innerHTML = "Hide <b>all</b> NSFW content"
+  }
+
+  var nsfw = document.getElementsByClassName("nsfw");
+  for (var i = 0; i < nsfw.length; ++i) {
+    nsfw[i].style.display = display;
+    var link = document.getElementById(nsfw[i].id + "_nsfw_switch");
+    link.innerHTML = linkText;
   }
 }
 
