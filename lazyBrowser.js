@@ -157,3 +157,25 @@ function isEmpty()
 {
   return this.top == 0;
 }
+
+function jsonRequest(url, handler)
+{
+  return new Promise(function(fulfill, reject) {
+    var req = new XMLHttpRequest();
+    req.open("GET", url, true);
+
+    req.onload = function() {
+      if (req.readyState == 4 && req.status == 200) {
+        fulfill(JSON.parse(req.responseText));
+      } else {
+        reject(Error(req.statusText));
+      }
+    };
+
+    req.onerror = function() {
+      reject(Error("network error"));
+    };
+
+    req.send();
+  });
+}
