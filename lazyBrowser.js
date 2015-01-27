@@ -36,12 +36,19 @@ function gfycatNode(data)
     node.setAttribute("width", json.gfyItem.width + "px");
     node.setAttribute("height", json.gfyItem.height + "px");
     node.setAttribute("src", data.url);
-    document.getElementById(data.name).appendChild(node);
+    appendMediaNode(data.name, node);
   }).catch(function(error) {
     var node = document.createElement("div");
     node.innerHTML = "Gfycat error:\n" + error;
-    document.getElementById(data.name).appendChild(node);
+    appendMediaNode(data.name, node);
   });
+}
+
+function appendMediaNode(name, node)
+{
+  var target = document.getElementById(name);
+  target.innerHTML = "";
+  target.appendChild(node);
 }
 
 function mediaNode(data)
@@ -53,7 +60,7 @@ function mediaNode(data)
       if (data.domain == "imgur.com") {
         var node = document.createElement("img");
         node.setAttribute("src", data.url.replace("imgur", "i.imgur") + ".gif");
-        document.getElementById(data.name).appendChild(node);
+        appendMediaNode(data.name, node);
 
       } else if (data.domain == "gfycat.com") {
         gfycatNode(data);
@@ -62,7 +69,7 @@ function mediaNode(data)
     } else {
       var node = document.createElement("img");
       node.setAttribute("src", data.url);
-      document.getElementById(data.name).appendChild(node);
+      appendMediaNode(data.name, node);
     }
 
   } else {
@@ -70,7 +77,7 @@ function mediaNode(data)
     // now, that's what I call a hack!
     node.innerHTML = data.media.oembed.html.replace('src=\"//cdn', 'src=\"https://cdn');
     node.innerHTML = node.textContent;
-    document.getElementById(data.name).appendChild(node);
+    appendMediaNode(data.name, node);
   }
 }
 
@@ -86,6 +93,7 @@ function listingNode(data)
   row.appendChild(link);
 
   media.setAttribute("id", data.name);
+  media.innerHTML = "<canvas data-processing-sources=\"throbber.pde\" alt=\"Loading ..\"></canvas>";
 
   if (data.over_18) {
     media.className = "nsfw";
