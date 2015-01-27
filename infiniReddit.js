@@ -215,7 +215,7 @@ function main()
   // initialize global variables
   url = '/r/woahdude/hot'
   container = document.getElementById("container");
-  reddit = new window.Snoocore({ userAgent: 'LazyBrowser@0.0.1 by jrk-' });
+  reddit = new window.Snoocore({ userAgent: 'InfiniReddit@0.0.1 by jrk-' });
 
   loadNextListing();
   window.onscroll = loadMore;
