@@ -24,7 +24,36 @@ function clearNode(node)
   }
 }
 
-function appendListing(data)
+function mediaNode(data)
+{
+  if (data.media == null) {
+
+    if (data.link_flair_text == "gifv") {
+
+      if (data.domain == "imgur.com") {
+        var node = document.createElement("img");
+        node.setAttribute("src", data.url.replace("imgur", "i.imgur") + ".gif");
+        document.getElementById(data.name).appendChild(node);
+
+      } else if (data.domain == "gfycat.com") {
+      }
+
+    } else {
+      var node = document.createElement("img");
+      node.setAttribute("src", data.url);
+      document.getElementById(data.name).appendChild(node);
+    }
+
+  } else {
+    var node = document.createElement("div");
+    // now, that's what I call a hack!
+    node.innerHTML = data.media.oembed.html.replace('src=\"//cdn', 'src=\"https://cdn');
+    node.innerHTML = node.textContent;
+    document.getElementById(data.name).appendChild(node);
+  }
+}
+
+function listingNode(data)
 {
   var thumbnail = document.createElement("img");
   var img = document.createElement("img");
@@ -32,21 +61,18 @@ function appendListing(data)
   var left = document.createElement("div");
   var right = document.createElement("div");
   var link = document.createElement("a");
+  var media = document.createElement("div");
 
   link.setAttribute("href", "http://www.reddit.com" + data.permalink);
   link.innerHTML = data.title;
   link.className = "center";
+  media.setAttribute("id", data.name);
   row.appendChild(link);
-
-  img.className = "center";
-  img.setAttribute("src", data.url);
-  row.appendChild(img);
+  row.appendChild(media);
 
   container.appendChild(row);
 
-  var hr = document.createElement("hr");
-  hr.setAttribute("width", "90%")
-  container.appendChild(hr);
+  mediaNode(data);
 }
 
 function loadNextListing()
