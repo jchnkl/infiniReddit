@@ -14,7 +14,7 @@ var maxListings = 6;
 var lastListing = null;
 
 // show NSFW by default
-showNSFW = false;
+var showNSFW = false;
 
 // clear container
 function clearNode(node)
