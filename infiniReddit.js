@@ -242,7 +242,6 @@ function main()
   reddit = new window.Snoocore({ userAgent: 'InfiniReddit@0.0.1 by jrk-' });
 
   loadNextListing();
-  window.onscroll = loadMore;
 }
 
 function getUrlVars()
