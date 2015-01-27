@@ -13,6 +13,9 @@ var container = null;
 // are new listings completely appended to the dom?
 var isReady = true;
 
+// how many listings to fetch per request
+var maxListings = 4;
+
 // clear container
 function clearNode(node)
 {
@@ -53,10 +56,10 @@ function loadNextListing()
   var promise = null;
 
   if (history.isEmpty()) {
-    promise = reddit(url).get({ limit: 16 });
+    promise = reddit(url).get({ limit: maxListings });
   } else {
     var name = history.peek().name;
-    promise = reddit(url).get({ limit: 16, after: name });
+    promise = reddit(url).get({ limit: maxListings, after: name });
   }
 
   promise.then(function(result)
