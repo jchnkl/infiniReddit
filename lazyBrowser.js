@@ -110,6 +110,10 @@ function listingNode(data)
 
   container.appendChild(row);
 
+  var hr = document.createElement("hr");
+  hr.setAttribute("width", "90%")
+  container.appendChild(hr);
+
   mediaNode(data);
 }
 
