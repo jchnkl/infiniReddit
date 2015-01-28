@@ -1,1 +1,55 @@
-infiniReddit.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>InfiniReddit</title>
+
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap-theme.min.css">
+  <link rel="stylesheet" href="infiniReddit.css">
+
+  <script src="Snoocore-standalone.js"></script>
+  <script src="infiniReddit.js"></script>
+</head>
+<body>
+
+<div class="center">
+
+  <div style="float: left;">
+    <form name="SubForm">
+      <input type="text" name="Sub">
+    </form>
+  </div>
+
+  <div style="float: left;">
+    <select id="SubSelect">
+      <option>hot</option>
+      <option>new</option>
+      <option>top</option>
+    </select>
+  </div>
+
+  <div style="float: left;">
+    <input type="button" onclick="chooseSub()" value="Go!">
+  </div>
+
+  <div style="float: right;">
+    <a id="global_nsfw_switch"
+       href="javascript:;" onClick="toggleAllNsfw();"
+                           style="color: #ff0000">
+      Show <b>all</b> NSFW content
+    </a>
+  </div>
+
+</div>
+
+<hr width = "100%" style="margin-top: 3px"></hr>
+
+<div class="center" id="container"></div>
+
+<script>
+main();
+</script>
+
+</body>
+</html>
