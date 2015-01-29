@@ -88,6 +88,7 @@ function listingNode(data)
   var media = document.createElement("div");
 
   link.setAttribute("href", "http://www.reddit.com" + data.permalink);
+  link.setAttribute("target", "_blank");
   link.innerHTML = data.title;
   link.className = "center";
   row.appendChild(link);
