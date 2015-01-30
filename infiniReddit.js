@@ -1,3 +1,11 @@
+// TODO
+// * show self posts as text boxes
+// * show other content links with thumbnails
+// * loading of initial content: load until we're sure the scroll event gets fired
+// * put all content into an extra div for css "max-width" attribute
+// * fix "toggle all nsfw"
+// * fix input/selection boxes
+
 // globals..
 var url = null;
 
